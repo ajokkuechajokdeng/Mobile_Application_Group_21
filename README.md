@@ -9,7 +9,7 @@ This repository serves as a collaborative space for our team to work on various 
 ## Project Structure
 
 - Link to the video recording: 
-- Link to the GitHub repository: https://github.com/speedserve/mobile-app_group21
+- Link to the GitHub repository: https://github.com/ajokkuechajokdeng/Mobile_Application_Group_21
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ To get started with our projects, follow these steps:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/speedserve/mobile-app_group21.git
+   git clone https://github.com/ajokkuechajokdeng/Mobile_Application_Group_21.git
 
    ```
 
