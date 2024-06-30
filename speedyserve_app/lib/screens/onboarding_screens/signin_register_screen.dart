@@ -3,7 +3,7 @@ import 'package:SpeedyServe/screens/auth_screens/login_screen.dart'; // Import y
 import 'package:SpeedyServe/screens/auth_screens/register.dart'; // Import your registration screen if needed
 
 class SigninScreen extends StatelessWidget {
-  const SigninScreen({Key? key}) : super(key: key);
+  const SigninScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:SpeedyServe/screens/app_screens/home_screen.dart';
 import 'package:SpeedyServe/screens/app_screens/profile_screen.dart';
 
 class HomeEntry extends StatefulWidget {
-  const HomeEntry({Key? key}) : super(key: key);
+  const HomeEntry({super.key});
 
   @override
   _HomeEntryState createState() => _HomeEntryState();
@@ -13,7 +13,7 @@ class HomeEntry extends StatefulWidget {
 
 class _HomeEntryState extends State<HomeEntry> {
   final List<Widget> _widgetOptions = <Widget>[
-     HomeScreen(),
+     const HomeScreen(),
     Container(), // Placeholder for SearchScreen, replace with actual implementation
     const CartScreen(),
     const ProfileScreen(),
@@ -42,11 +42,11 @@ class _HomeEntryState extends State<HomeEntry> {
               gap: 8,
               activeColor: Colors.red.shade500,
               iconSize: 24,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              duration: Duration(milliseconds: 400),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Colors.transparent,
               color: Colors.grey[600]!,
-              tabs: [
+              tabs: const [
                 GButton(
                   icon: Icons.home,
                   text: 'Home',

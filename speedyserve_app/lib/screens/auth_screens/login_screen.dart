@@ -2,12 +2,13 @@
 import 'package:SpeedyServe/components/square_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:SpeedyServe/screens/app_screens/home_screen.dart';  // Import HomeScreen
-import 'package:SpeedyServe/components/square_tile.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+
+  LoginPage({super.key});
 
   void _handleLogin(BuildContext context) {
     String email = _emailController.text.toLowerCase().trim();
@@ -51,7 +52,7 @@ class LoginPage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => const HomeScreen(),
         ),
       );
     }
@@ -179,7 +180,7 @@ class LoginPage extends StatelessWidget {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomeScreen(),
+                                builder: (context) => const HomeScreen(),
                               ),
                             );
                           },

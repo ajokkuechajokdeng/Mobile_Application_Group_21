@@ -8,6 +8,8 @@ class Registration extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
+  Registration({super.key});
+
   void _registerUser(BuildContext context) {
     if (_emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&

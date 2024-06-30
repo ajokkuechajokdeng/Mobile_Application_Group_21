@@ -74,10 +74,10 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart'),
+        title: const Text('Cart'),
       ),
       body: userOrders.isEmpty
-          ? Center(
+          ? const Center(
               child: Text('No items in the cart.'),
             )
           : SingleChildScrollView(
@@ -97,7 +97,7 @@ class _CartScreenState extends State<CartScreen> {
                     const SizedBox(height: 20.0),
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: userOrders.length,
                       itemBuilder: (context, index) {
                         var item = userOrders[index];
@@ -135,7 +135,7 @@ class _CartScreenState extends State<CartScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Total',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,

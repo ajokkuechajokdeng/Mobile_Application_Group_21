@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatelessWidget {
+  const CategoriesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Mock category data
@@ -13,7 +15,7 @@ class CategoriesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Categories'),
+        title: const Text('Categories'),
       ),
       body: ListView.builder(
         itemCount: categories.length,

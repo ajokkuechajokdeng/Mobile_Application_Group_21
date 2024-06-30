@@ -9,12 +9,12 @@ class ItemView extends StatefulWidget {
   final String description;
 
   const ItemView({
-    Key? key,
+    super.key,
     required this.name,
     required this.imagePath,
     required this.price,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   State<ItemView> createState() => _ItemViewState();
@@ -80,7 +80,7 @@ class _ItemViewState extends State<ItemView> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
@@ -100,14 +100,14 @@ class _ItemViewState extends State<ItemView> {
                         onPressed: _decrement,
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all(
-                            CircleBorder(
+                            const CircleBorder(
                               side: BorderSide(
                                 color: Colors.red,
                               ),
                             ),
                           ),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.remove,
                           color: Colors.red,
                           size: 16.0,
@@ -117,7 +117,7 @@ class _ItemViewState extends State<ItemView> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           '$_countNumber',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
@@ -128,14 +128,14 @@ class _ItemViewState extends State<ItemView> {
                         onPressed: _increment,
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all(
-                            CircleBorder(
+                            const CircleBorder(
                               side: BorderSide(
                                 color: Colors.red,
                               ),
                             ),
                           ),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.add,
                           color: Colors.red,
                           size: 16.0,
@@ -146,7 +146,7 @@ class _ItemViewState extends State<ItemView> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
@@ -158,7 +158,7 @@ class _ItemViewState extends State<ItemView> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(

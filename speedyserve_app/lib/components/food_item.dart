@@ -1,4 +1,3 @@
-import 'package:SpeedyServe/models/food.dart';
 import 'package:SpeedyServe/screens/app_screens/item_view.dart';
 import 'package:flutter/material.dart';
 
