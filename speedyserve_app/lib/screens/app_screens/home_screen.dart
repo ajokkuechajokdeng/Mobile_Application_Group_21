@@ -45,15 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
   // Mock data for food items
   final List<Map<String, dynamic>> foods = [
     {
-      'name': 'Food 1',
-      'imagePath': 'assets/food1.jpg',
-      'price': 4000.0,
+      'name': 'Full chicken',
+      'imagePath': 'assets/images/chickenn.jpeg',
+      'price': 8000.0,
       'description': 'Description for Food 1',
     },
     {
       'name': 'Food 2',
-      'imagePath': 'assets/food2.jpg',
-      'price': 3500.0,
+      'imagePath': 'assets/images/Shushi Barbecue.jpg',
+      'price': 5000.0,
       'description': 'Description for Food 2',
     },
     {

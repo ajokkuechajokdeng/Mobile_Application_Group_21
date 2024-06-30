@@ -75,7 +75,7 @@ class _PromotionCardState extends State<PromotionCard> {
                       Padding(
                         padding: EdgeInsets.only(left: 80.0),
                         child: Text(
-                          '15,000.0 ',
+                          '13,000',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
