@@ -15,14 +15,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: Colors.red,
+        title: const Center(child: Text('Profile')),
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 38.0,
-            vertical: MediaQuery.of(context).size.height * 0.15,
+            vertical: MediaQuery.of(context).size.height * 0.01,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
