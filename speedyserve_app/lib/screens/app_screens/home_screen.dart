@@ -6,7 +6,6 @@ import 'package:SpeedyServe/components/search_bar.dart';
 import 'package:SpeedyServe/screens/app_screens/profile_screen.dart';
 import 'package:SpeedyServe/screens/app_screens/cart_screen.dart';
 
-
 void main() {
   runApp(const MyApp());
 }

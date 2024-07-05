@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:SpeedyServe/components/cart_item.dart';
 
+
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
@@ -18,15 +19,17 @@ class _CartScreenState extends State<CartScreen> {
     // Mock data initialization (replace with your own logic if needed)
     userOrders = [
       {
+        'id': '1',
         'name': 'Item 1',
-        'price': '20',
-        'imagePath': 'images/item1.png',
+        'price': 20.0, // Ensure price is a double
+        'imagePath': 'https://via.placeholder.com/150', // Sample image URL
         'quantity': 2,
       },
       {
+        'id': '2',
         'name': 'Item 2',
-        'price': '30',
-        'imagePath': 'images/item2.png',
+        'price': 30.0, // Ensure price is a double
+        'imagePath': 'https://via.placeholder.com/150', // Sample image URL
         'quantity': 1,
       },
     ];
@@ -142,7 +145,11 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ),
                         Text(
-                          'SSP 2000', // Mock total price, replace with actual calculation
+                          'SSP ${userOrders.fold<double>(
+                            0.0,
+                            (total, item) =>
+                                total + (item['price'] as double) * item['quantity'],
+                          ).toStringAsFixed(2)}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.yellow.shade700,
