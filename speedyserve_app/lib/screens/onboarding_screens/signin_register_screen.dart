@@ -39,36 +39,41 @@ class SigninScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(), // Navigate to your login screen
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage(), // Navigate to your login screen
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.redAccent, backgroundColor: Colors.white, // Text color
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.redAccent, backgroundColor: Colors.white, // Text color
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
-                ),
-                child: const Text('Sign in'),
-              ),
-              const SizedBox(height: 20.0),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Registration(), // Navigate to your registration screen
+                    child: const Text('Sign in'),
+                  ),
+                  const SizedBox(width: 20.0),
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Registration(), // Navigate to your registration screen
+                        ),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white, side: const BorderSide(color: Colors.white), // Border color
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
                     ),
-                  );
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white, side: const BorderSide(color: Colors.white), // Border color
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
-                ),
-                child: const Text('Register'),
+                    child: const Text('Register'),
+                  ),
+                ],
               ),
             ],
           ),
