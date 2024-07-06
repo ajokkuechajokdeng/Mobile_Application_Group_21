@@ -8,7 +8,7 @@ This repository serves as a collaborative space for our team to work on various 
 
 ## Project Structure
 
-- Link to the video recording(Demo Video): 
+- Link to the video recording(Demo Video): https://drive.google.com/file/d/1iaN1ImLwfs134uLf2Ihn9FtdomFrl47h/view?usp=sharing 
 - Link to the GitHub repository: https://github.com/ajokkuechajokdeng/Mobile_Application_Group_21
 
 ## Getting Started
