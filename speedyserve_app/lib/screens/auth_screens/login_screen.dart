@@ -1,7 +1,9 @@
 // screens/login_page.dart
 import 'package:SpeedyServe/components/square_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:SpeedyServe/screens/app_screens/home_screen.dart';  // Import HomeScreen
+import 'package:SpeedyServe/screens/app_screens/home_screen.dart';  
+import 'package:SpeedyServe/screens/auth_screens/register.dart';  
+
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -180,7 +182,7 @@ class LoginPage extends StatelessWidget {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
+                                builder: (context) =>  Registration(),
                               ),
                             );
                           },
