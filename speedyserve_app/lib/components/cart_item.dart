@@ -13,7 +13,7 @@ class CartItem extends StatefulWidget {
     required this.itemPrice,
     required this.itemImage,
     required this.quantity,
-    required this.onTap,
+    required this.onTap
   });
 
   @override
@@ -67,61 +67,64 @@ class _CartItemState extends State<CartItem> {
           ),
         ),
         const SizedBox(width: 10.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+        Row(
           children: [
-            Text(
-              widget.itemName,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-            Text(
-              'SSP ${(_countNumber * widget.itemPrice).toStringAsFixed(2)}',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.yellow.shade600),
-            ),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(
-                  onPressed: _decrement,
-                  icon: const Icon(
-                    Icons.remove_circle_outline_outlined,
-                    color: Colors.red,
-                    size: 15.0,
-                  ),
+                Text(
+                  widget.itemName,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.bold, color: Colors.black),
                 ),
                 Text(
-                  '$_countNumber',
+                  'SSP ${_countNumber * widget.itemPrice}',
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.0,
-                        color: Colors.red,
-                      ),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.yellow.shade600),
                 ),
-                IconButton(
-                  onPressed: _increment,
-                  icon: const Icon(
-                    Icons.add_circle_outline,
-                    color: Colors.red,
-                    size: 15.0,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: _decrement,
+                      icon: const Icon(
+                        Icons.remove_circle_outline_outlined,
+                        color: Colors.red,
+                        size: 15.0,
+                      ),
+                    ),
+                    Text(
+                      '$_countNumber',
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,
+                            color: Colors.red,
+                          ),
+                    ),
+                    IconButton(
+                      onPressed: _increment,
+                      icon: const Icon(
+                        Icons.remove_circle_outline_outlined,
+                        color: Colors.red,
+                        size: 15.0,
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
+            )
           ],
         ),
         const Spacer(),
         IconButton(
-          onPressed: widget.onTap,
-          icon: const Icon(
-            Icons.delete,
-            color: Colors.black,
-          ),
-        ),
+            onPressed: widget.onTap,
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.black,
+            ))
       ],
     );
   }

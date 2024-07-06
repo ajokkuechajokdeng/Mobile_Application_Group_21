@@ -36,43 +36,44 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // Mock data for food categories
   final List<Map<String, dynamic>> categories = [
-    {'name': 'Category 1', 'imagePath': 'assets/category1.jpg'},
-    {'name': 'Category 2', 'imagePath': 'assets/category2.jpg'},
-    {'name': 'Category 3', 'imagePath': 'assets/category3.jpg'},
+    {'name': 'All', 'imagePath': 'images/rice.png'},
+    {'name': 'Briyani', 'imagePath': 'images/Briyani.png'},
+    {'name': 'Kebab', 'imagePath': 'images/Kebab.png'},
+    {'name': 'Briyani', 'imagePath': 'images/Briyani.png'},
   ];
 
   // Mock data for food items
   final List<Map<String, dynamic>> foods = [
     {
       'name': 'Full chicken',
-      'imagePath': 'assets/images/chickenn.jpeg',
+      'imagePath': 'images/Full Chicken.png',
       'price': 8000.0,
-      'description': 'Description for Food 1',
+      'description': 'Savor the mouthwatering delight of our Full Chicken, a popular favorite in our restaurant app! Perfectly seasoned and roasted to golden-brown perfection, this dish promises a succulent and flavorful experience with every bite. The Full Chicken is marinated in a blend of aromatic herbs and spices, ensuring a juicy and tender interior, while the crispy, caramelized skin adds an irresistible crunch.',
     },
     {
-      'name': 'Food 2',
-      'imagePath': 'assets/images/Shushi Barbecue.jpg',
+      'name': 'Shushi Barbecue',
+      'imagePath': 'images/Shushi Barbecue.png',
       'price': 5000.0,
-      'description': 'Description for Food 2',
+      'description': 'Experience a delightful fusion of Japanese tradition and smoky barbecue flavors with our Shushi Barbecue. This unique dish combines the delicate taste of fresh sushi ingredients, such as premium-grade fish, crisp vegetables, and aromatic rice, with the rich, savory essence of barbecue. Perfectly grilled and glazed with a special blend of teriyaki and barbecue sauce, each bite offers a harmonious balance of sweet, tangy, and umami notes. Whether you are a sushi enthusiast or a barbecue lover this dish is sure to tantalize your taste buds and provide an unforgettable culinary adventure.',
     },
     {
-      'name': 'Food 3',
-      'imagePath': 'assets/food3.jpg',
+      'name': 'Chicken Briyani',
+      'imagePath': 'images/Briyani.png',
       'price': 4500.0,
-      'description': 'Description for Food 3',
+      'description': 'Experience a culinary delight with our Chicken Biryani, a timeless classic that brings the rich flavors of India to your plate. This aromatic dish features tender chicken pieces marinated in a blend of exotic spices, layered with fragrant basmati rice, and cooked to perfection in a sealed pot to retain all its flavors. Each spoonful bursts with a symphony of spices, herbs, and caramelized onions, offering a harmonious balance of savory and aromatic notes. Garnished with fresh cilantro and served with cooling raita and tangy pickle, our Chicken Biryani is a feast for the senses. Whether for a festive celebration or a comforting meal, this biryani promises an unforgettable dining experience.',
     },
   ];
 
   // Function to handle when a food category is selected
   void onSelectedFoodCategory(String category) {
     debugPrint(category);
-    // Implement your logic here
+    
   }
 
   // Function to handle when a food is searched
   void onSearchedFood(String food) {
     debugPrint(food);
-    // Implement your logic here
+ 
   }
 
   @override

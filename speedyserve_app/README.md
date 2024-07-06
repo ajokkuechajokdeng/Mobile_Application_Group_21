@@ -1,16 +1,37 @@
-# speedyserve_app
+# Mobile App Development - Group 21
 
-A new Flutter project.
+Welcome to the Mobile App Development repository for Group 21 of ALU Bachelor of Software Engineering (BSE) students!
+
+## Overview
+
+This repository serves as a collaborative space for our team to work on various mobile application development projects as part of our BSE curriculum at ALU.
+
+## Project Structure
+
+- Link to the video recording(Demo Video): 
+- Link to the GitHub repository: https://github.com/ajokkuechajokdeng/Mobile_Application_Group_21
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To get started with our projects, follow these steps:
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone the repository:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+   ```
+   git clone https://github.com/ajokkuechajokdeng/Mobile_Application_Group_21.git
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   ```
+
+2. Navigate to the project directory:
+
+   ```
+   cd mobile-app_group21
+
+   ```
+
+## Authors
+
+- Henriette Tuombe(h.tuombe@alustudent.com)
+- Ajok Kuech Ajok Deng(a.deng2@alustudent.com)
+- Kur Malual(k.malual@alustudent.com)
+

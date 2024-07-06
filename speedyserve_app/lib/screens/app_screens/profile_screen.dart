@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Stack(
                             children: [
                               Container(
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.red,
                                 ),
@@ -115,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 40),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:SpeedyServe/components/cart_item.dart';
-
+import 'package:SpeedyServe/screens/app_screens/profile_screen.dart';
+import 'package:SpeedyServe/screens/app_screens/home_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -16,20 +17,20 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    // Mock data initialization (replace with your own logic if needed)
+    
     userOrders = [
       {
         'id': '1',
-        'name': 'Item 1',
-        'price': 20.0, // Ensure price is a double
-        'imagePath': 'https://via.placeholder.com/150', // Sample image URL
+        'name': 'Coke',
+        'price': 1250.0, 
+        'imagePath': 'images/can.jpg', 
         'quantity': 2,
       },
       {
         'id': '2',
-        'name': 'Item 2',
-        'price': 30.0, // Ensure price is a double
-        'imagePath': 'https://via.placeholder.com/150', // Sample image URL
+        'name': 'Chicken Briyani',
+        'price': 4500.0, 
+        'imagePath': 'images/Briyani.png', 
         'quantity': 1,
       },
     ];
@@ -54,7 +55,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _placeOrder(BuildContext context) {
-    // Mock logic to simulate placing an order (replace with your own logic)
+    // Mock logic to simulate placing an order 
     setState(() {
       userOrders.clear(); // Clear the cart after placing the order
       _instructionsController.clear();
@@ -73,12 +74,35 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
+  int _selectedIndex = 2; // Initial index for CartScreen
+
+  void _onItemTapped(int index) {
+    // Handle navigation based on selected index
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+        break;
+      case 1:
+        debugPrint('Search selected');
+        break;
+      case 2:
+        // Do nothing if CartScreen is already selected
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfileScreen()), // Navigate to ProfileScreen
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cart'),
-      ),
       body: userOrders.isEmpty
           ? const Center(
               child: Text('No items in the cart.'),
@@ -157,26 +181,58 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20.0),
-                    ElevatedButton(
-                      onPressed: () => _placeOrder(context),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 50.0,
-                          vertical: 12.0,
+                    const SizedBox(height: 40.0),
+                    Center( // Center the button horizontally
+                      child: ElevatedButton(
+                        onPressed: () => _placeOrder(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 150.0,
+                            vertical: 20.0,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
-                      ),
-                      child: const Text(
-                        'Place Order',
-                        style: TextStyle(
-                          fontSize: 20,
+                        child: const Text(
+                          'Place Order',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 20.0), 
                   ],
                 ),
               ),
             ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
