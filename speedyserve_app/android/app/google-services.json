@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "114509387618",
+    "project_id": "speedyserveapp",
+    "storage_bucket": "speedyserveapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114509387618:android:0b4f41846ea8d7997a3e3b",
+        "android_client_info": {
+          "package_name": "com.example.speedyserve_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4-ADN1F_TFzPBCqFdgGEiMljJcZXFuRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
