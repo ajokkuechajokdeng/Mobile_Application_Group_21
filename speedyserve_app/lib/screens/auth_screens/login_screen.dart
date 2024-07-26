@@ -1,63 +1,93 @@
-// screens/login_page.dart
 import 'package:SpeedyServe/components/square_tile.dart';
+import 'package:SpeedyServe/models/services/authentication.dart';
+import 'package:SpeedyServe/screens/app_screens/home_entry.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:SpeedyServe/screens/app_screens/home_screen.dart';  
-import 'package:SpeedyServe/screens/auth_screens/register.dart';  
+import 'package:SpeedyServe/screens/auth_screens/register.dart';
 
+class LoginPage extends StatefulWidget {
+  final FirebaseAuth firebaseAuth;
 
-class LoginPage extends StatelessWidget {
+  const LoginPage({super.key, required this.firebaseAuth});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
-  LoginPage({super.key});
-
-  void _handleLogin(BuildContext context) {
+  Future<void> _handleLogin() async {
     String email = _emailController.text.toLowerCase().trim();
     String password = _passwordController.text.trim();
-
-    // Example logic: Check if fields are filled (front-end validation)
     if (email.isEmpty || password.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text(
-              'Error',
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            content: const Text(
-              'All fields are required',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-                fontSize: 20,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
+      _showErrorDialog('All fields are required');
     } else {
-      // Navigate to HomeScreen
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      );
+      final user = await _auth.signInWithEmailAndPassword(email, password);
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeEntry(),
+          ),
+        );
+      } else {
+        _showErrorDialog('The supplied authentication credentials are incorrect, malformed or have expired');
+      }
     }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    try {
+      final user = await _auth.signInWithGoogle();
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeEntry(),
+          ),
+        );
+      }
+    } catch (error) {
+      print('Google Sign-In Error: $error');
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            'Error',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          content: Text(
+            message,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -165,7 +195,9 @@ class LoginPage extends StatelessWidget {
                             color: Colors.grey,
                           ),
                           onPressed: () {
-                            _isPasswordVisible = !_isPasswordVisible;
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
                           },
                         ),
                       ),
@@ -179,10 +211,10 @@ class LoginPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 35),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  Registration(),
+                                builder: (context) => const Registration(),
                               ),
                             );
                           },
@@ -213,7 +245,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
-                    onPressed: () => _handleLogin(context),
+                    onPressed: () => _handleLogin(),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.red,
@@ -244,9 +276,12 @@ class LoginPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SquareTile(onTap: () {}, imagePath: 'images/google_logo.png'),
+                      SquareTile(
+                          onTap: () => FirebaseAuthServices().signInWithGoogle() ,
+                          imagePath: 'images/google_logo.png'),
                       const SizedBox(width: 25),
-                      SquareTile(onTap: () {}, imagePath: 'images/apple_icon.png'),
+                      SquareTile(
+                          onTap: () {}, imagePath: 'images/apple_icon.png'),
                     ],
                   )
                 ],

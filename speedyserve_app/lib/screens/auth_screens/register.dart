@@ -1,59 +1,86 @@
+import 'package:SpeedyServe/models/services/authentication.dart';
+import 'package:SpeedyServe/screens/app_screens/home_entry.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import '../../components/square_tile.dart';
 
-class Registration extends StatelessWidget {
+class Registration extends StatefulWidget {
+  const Registration({super.key});
+
+  @override
+  State<Registration> createState() => _RegistrationState();
+}
+
+class _RegistrationState extends State<Registration> {
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
-  Registration({super.key});
-
-  void _registerUser(BuildContext context) {
+  Future<void> _registerUser() async {
     if (_emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
         _nameController.text.isNotEmpty) {
-      // Here you can implement your registration logic
-      // For example, navigating to another screen after registration
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text(
-              'Welcome to SpeedyServe',
-              style: TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            content: const Text(
-              'Account created successfully',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-                fontSize: 20,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
-                },
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
+      final user = await _auth.signUpWithEmailAndPassword(
+        _nameController.text.toLowerCase().trim(),
+        _emailController.text.toLowerCase().trim(),
+        _passwordController.text,
       );
+
+      if (user != null) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text(
+                'Welcome to SpeedyServe',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              content: const Text(
+                'Account created successfully',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(
+                          firebaseAuth: FirebaseAuth.instance,
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+        return _auth.signOut();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Something went wrong',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } else {
-      // Show an alert dialog if fields are not filled
       showDialog(
         context: context,
         builder: (context) {
@@ -84,6 +111,18 @@ class Registration extends StatelessWidget {
             ],
           );
         },
+      );
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    final user = await _auth.signInWithGoogle();
+    if (user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeEntry(),
+        ),
       );
     }
   }
@@ -149,7 +188,7 @@ class Registration extends StatelessWidget {
                       ),
                     ),
                     prefixIcon: Icon(
-                      Icons.shopping_bag_outlined,
+                      Icons.email_outlined,
                       color: Colors.red,
                     ),
                   ),
@@ -192,22 +231,24 @@ class Registration extends StatelessWidget {
                     border: null,
                     filled: true,
                     fillColor: const Color(0xFFF3F3F3),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 50),
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.red),
                     ),
-                    prefixIcon: const Icon(Icons.lock_outline, color: Colors.red),
+                    prefixIcon:
+                        const Icon(Icons.lock_outline, color: Colors.red),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                         color: Colors.grey,
                       ),
                       onPressed: () {
-                        _isPasswordVisible = !_isPasswordVisible;
-                        // Notify the framework that the state of this object has changed.
-                        // This will cause the display to update as needed.
-                        setState(() {});
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
                       },
                     ),
                   ),
@@ -224,7 +265,9 @@ class Registration extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginPage(),
+                            builder: (context) => LoginPage(
+                              firebaseAuth: FirebaseAuth.instance,
+                            ),
                           ),
                         );
                       },
@@ -241,11 +284,12 @@ class Registration extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => _registerUser(context),
+                onPressed: _registerUser,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.red,
-                  padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -270,7 +314,9 @@ class Registration extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SquareTile(onTap: () {}, imagePath: 'images/google_logo.png'),
+                  SquareTile(
+                      onTap: () => FirebaseAuthServices().signInWithGoogle(),
+                      imagePath: 'images/google_logo.png'),
                   const SizedBox(width: 25),
                   SquareTile(onTap: () {}, imagePath: 'images/apple_icon.png'),
                 ],
@@ -281,7 +327,4 @@ class Registration extends StatelessWidget {
       ),
     );
   }
-}
-
-void setState(Null Function() param0) {
 }

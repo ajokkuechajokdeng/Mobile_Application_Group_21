@@ -1,64 +1,71 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 class FirebaseAuthServices {
-  // Example methods for frontend-only authentication
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: 'YOUR_CLIENT_ID'  );
 
-  // Sign up with email and password (frontend implementation)
-  Future<bool> signUpWithEmailAndPassword(
-      String name, String email, String password) async {
+  // Sign up with email and password
+  Future<User?> signUpWithEmailAndPassword(String name, String email, String password) async {
     try {
-      // Perform signup logic here (frontend implementation)
-      // For example, validate inputs and create user locally
-      // Simulate successful signup (replace with your logic)
-      return true;
+      final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      User? user = userCredential.user;
+      if (user != null) {
+        await user.updateProfile(displayName: name);
+        await user.reload();
+        user = _auth.currentUser;
+      }
+      return user;
     } catch (e) {
-      print('Error signing up: $e');
-      return false;
+      print('Error signing up with email and password: $e');
+      return null;
     }
   }
 
-  // Sign in with email and password (frontend implementation)
-  Future<bool> signInWithEmailAndPassword(String email, String password) async {
+  // Sign in with email and password
+  Future<User?> signInWithEmailAndPassword(String email, String password) async {
     try {
-      // Perform signin logic here (frontend implementation)
-      // For example, validate inputs and sign in user locally
-      // Simulate successful signin (replace with your logic)
-      return true;
+      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential.user;
     } catch (e) {
-      print('Error signing in: $e');
-      return false;
+      print('Error signing in with email and password: $e');
+      return null;
     }
   }
 
-  // Sign out (frontend implementation)
+  // Sign in with Google
+  Future<User?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) return null; // User canceled the sign-in
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      return userCredential.user;
+    } catch (e) {
+      print('Google Sign-In Error: $e');
+      return null;
+    }
+  }
+
+  // Sign out
   Future<void> signOut() async {
     try {
-      // Perform signout logic here (frontend implementation)
-      // For example, clear local session or state
+      await _auth.signOut();
+      await _googleSignIn.signOut();
     } catch (e) {
       print('Error signing out: $e');
-    }
-  }
-
-  // Check if user is signed in (frontend implementation)
-  Future<bool> isSignedIn() async {
-    try {
-      // Implement logic to check if user is signed in locally
-      // Simulate checking local session (replace with your logic)
-      return false;
-    } catch (e) {
-      print('Error checking signed in status: $e');
-      return false;
-    }
-  }
-
-  // Get current user (frontend implementation)
-  Future<String?> getCurrentUser() async {
-    try {
-      // Implement logic to get current user locally
-      // Simulate getting current user (replace with your logic)
-      return 'User Name'; // Example: return the user's name
-    } catch (e) {
-      print('Error getting current user: $e');
-      return null;
     }
   }
 }
