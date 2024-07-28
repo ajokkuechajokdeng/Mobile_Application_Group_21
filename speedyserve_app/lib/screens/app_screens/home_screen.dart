@@ -4,8 +4,6 @@ import 'package:SpeedyServe/components/food_categories.dart';
 import 'package:SpeedyServe/components/food_item.dart';
 import 'package:SpeedyServe/components/promotion_card.dart';
 import 'package:SpeedyServe/components/search_bar.dart';
-import 'package:SpeedyServe/screens/app_screens/profile_screen.dart';
-import 'package:SpeedyServe/screens/app_screens/cart_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -174,7 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     name: doc['title'],
                                     imagePath: doc['imagePath'],
                                     price: doc['price'].toDouble(),
-                                    description: '', // Add description if needed
+                                    description:
+                                        '', // Add description if needed
                                   ),
                                 );
                               }).toList(),
