@@ -8,16 +8,18 @@ class HomeEntry extends StatefulWidget {
   const HomeEntry({super.key});
 
   @override
-  _HomeEntryState createState() => _HomeEntryState();
+  State<HomeEntry> createState() => _HomeEntryState();
 }
 
 class _HomeEntryState extends State<HomeEntry> {
   final List<Widget> _widgetOptions = <Widget>[
-     const HomeScreen(),
-    Container(), // Placeholder for SearchScreen, replace with actual implementation
+    const HomeScreen(),
+    const HomeScreen(),
     const CartScreen(),
     const ProfileScreen(),
   ];
+
+  // starting point of our navbar
 
   int _selectedIndex = 0;
 
@@ -39,29 +41,31 @@ class _HomeEntryState extends State<HomeEntry> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.12, vertical: 8),
             child: GNav(
-              gap: 8,
+              // rippleColor: Colors.grey[300]!,
+              // hoverColor: Colors.grey[100]!,
+              gap: 0,
               activeColor: Colors.red.shade500,
-              iconSize: 24,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              iconSize: 30,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Colors.transparent,
-              color: Colors.grey[600]!,
+              color: Colors.grey[400]!,
               tabs: const [
                 GButton(
                   icon: Icons.home,
-                  text: 'Home',
+                  text: '',
                 ),
                 GButton(
                   icon: Icons.search,
-                  text: 'Search', // Change to actual label
+                  text: '',
                 ),
                 GButton(
-                  icon: Icons.shopping_cart,
-                  text: 'Cart',
+                  icon: Icons.shopping_cart_checkout_outlined,
+                  text: '',
                 ),
                 GButton(
-                  icon: Icons.person,
-                  text: 'Profile',
+                  icon: Icons.person_2_outlined,
+                  text: '',
                 ),
               ],
               selectedIndex: _selectedIndex,

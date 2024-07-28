@@ -7,7 +7,3 @@ class Category {
     required this.imagePath,
   });
 }
-
-
-
-

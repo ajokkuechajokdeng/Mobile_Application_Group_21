@@ -4,6 +4,7 @@ import 'package:SpeedyServe/screens/app_screens/home_entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:SpeedyServe/screens/auth_screens/register.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   final FirebaseAuth firebaseAuth;
@@ -16,6 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final FirebaseAuthServices _auth = FirebaseAuthServices();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
@@ -24,9 +26,39 @@ class _LoginPageState extends State<LoginPage> {
     String email = _emailController.text.toLowerCase().trim();
     String password = _passwordController.text.trim();
     if (email.isEmpty || password.isEmpty) {
-      _showErrorDialog('All fields are required');
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              'Error',
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            content: const Text(
+              'All fields are required',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+                fontSize: 20,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
     } else {
-      final user = await _auth.signInWithEmailAndPassword(email, password);
+      final user = await _auth.SignInWithEmailAndPassword(email, password);
       if (user != null) {
         Navigator.pushReplacement(
           context,
@@ -35,59 +67,66 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       } else {
-        _showErrorDialog('The supplied authentication credentials are incorrect, malformed or have expired');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text(
+                'Error',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              content: const Text(
+                'The supplied authentication credentials are incorrect, malformed or have expired',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
       }
     }
   }
 
   Future<void> _handleGoogleSignIn() async {
     try {
-      final user = await _auth.signInWithGoogle();
-      if (user != null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeEntry(),
-          ),
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
         );
+        final UserCredential userCredential =
+            await _auth.signInWithCredential(credential);
+        final User? user = userCredential.user;
+        if (user != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeEntry(),
+            ),
+          );
+        }
       }
     } catch (error) {
       print('Google Sign-In Error: $error');
     }
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text(
-            'Error',
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-          content: Text(
-            message,
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.normal,
-              fontSize: 20,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -269,15 +308,41 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  // Column(
+                  //   children: [
+                  //     GestureDetector(
+                  //       onTap: _handleGoogleSignIn,
+                  //       child: Row(
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: [
+                  //           Image.asset(
+                  //             'images/google_logo.png',
+                  //             height: 35,
+                  //           ),
+                  //           const SizedBox(width: 8),
+                  //           const Text(
+                  //             'Sign in with Google',
+                  //             style: TextStyle(
+                  //               fontSize: 16,
+                  //               color: Colors.white,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+
                   const Text(
                     'Other Sign in Options',
                     style: TextStyle(color: Colors.white),
                   ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SquareTile(
-                          onTap: () => FirebaseAuthServices().signInWithGoogle() ,
+                          onTap: _handleGoogleSignIn,
                           imagePath: 'images/google_logo.png'),
                       const SizedBox(width: 25),
                       SquareTile(

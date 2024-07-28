@@ -1,71 +1,110 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: 'YOUR_CLIENT_ID'  );
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
-  // Sign up with email and password
-  Future<User?> signUpWithEmailAndPassword(String name, String email, String password) async {
+  // ignore: non_constant_identifier_names
+  Future<User?> SignUpWithEmailAndPassword(
+      String name, String email, String password) async {
     try {
-      final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      User? user = userCredential.user;
-      if (user != null) {
-        await user.updateProfile(displayName: name);
-        await user.reload();
-        user = _auth.currentUser;
-      }
-      return user;
+      // step 1, lets create the user with the sign app
+      UserCredential credential = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+
+      // Step 2: Store additional user information in Firestore
+      await _fireStore.collection('users').doc(credential.user!.uid).set({
+        'uid': credential.user!.uid,
+        'name': name,
+        'email': email,
+        'profilePic': "",
+        'phoneNumber': "",
+        'address': "",
+        'role': "user",
+        // Add any additional user information you want to store
+      });
+
+      return credential.user;
     } catch (e) {
-      print('Error signing up with email and password: $e');
-      return null;
+      // ignore: avoid_print
+      print(e.toString());
     }
+    return null;
   }
 
-  // Sign in with email and password
-  Future<User?> signInWithEmailAndPassword(String email, String password) async {
+  // sign in with email and password
+  // ignore: non_constant_identifier_names
+  Future<User?> SignInWithEmailAndPassword(
+      String email, String password) async {
     try {
-      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return userCredential.user;
+      UserCredential credential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      return credential.user;
     } catch (e) {
-      print('Error signing in with email and password: $e');
-      return null;
+      // ignore: avoid_print
+      print(e.toString());
     }
+    return null;
   }
 
-  // Sign in with Google
-  Future<User?> signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return null; // User canceled the sign-in
-
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
-      return userCredential.user;
-    } catch (e) {
-      print('Google Sign-In Error: $e');
-      return null;
-    }
-  }
-
-  // Sign out
-  Future<void> signOut() async {
+  // sign out
+  // ignore: non_constant_identifier_names
+  Future<void> SignOut() async {
     try {
       await _auth.signOut();
-      await _googleSignIn.signOut();
+      return;
     } catch (e) {
-      print('Error signing out: $e');
+      // ignore: avoid_print
+      print(e.toString());
+    }
+  }
+
+  // check if user is signed in
+  // ignore: non_constant_identifier_names
+  Future<bool> isSignedIn() async {
+    final currentUser = _auth.currentUser;
+    return currentUser != null;
+  }
+
+  // save the user in the database with the name and email
+  // ignore: non_constant_identifier_names
+  Future<void> saveUserInDatabase(String name, String email) async {
+    try {
+      await _fireStore.collection('users').doc(email).set({
+        'name': name,
+        'email': email,
+      });
+    } catch (e) {
+      // ignore: avoid_print
+      print(e.toString());
+    }
+  }
+
+  Future<User?> getCurrentUser() async {
+    try {
+      User? user = _auth.currentUser;
+      return user;
+    } catch (e) {
+      // ignore: avoid_print
+      print(e.toString());
+      return null;
+    }
+  }
+
+  // get the details of user login
+  // ignore: non_constant_identifier_names
+
+  Future<UserCredential> signInWithCredential(AuthCredential credential) async {
+    try {
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      return userCredential;
+    } catch (e) {
+      print(e.toString());
+      throw e;
     }
   }
 }
