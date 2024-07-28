@@ -2,6 +2,7 @@ import 'package:SpeedyServe/models/services/authentication.dart';
 import 'package:SpeedyServe/screens/app_screens/home_entry.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'login_screen.dart';
 import '../../components/square_tile.dart';
 
@@ -14,22 +15,34 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   final FirebaseAuthServices _auth = FirebaseAuthServices();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<void> _registerUser() async {
+  // get the textControllers of the all fields
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
+  // get a method to register the user to the system
+  void _registerUser() async {
     if (_emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
         _nameController.text.isNotEmpty) {
-      final user = await _auth.signUpWithEmailAndPassword(
+      // call the method to register the user
+      // ignore: unused_local_variable
+
+      final user = await _auth.SignUpWithEmailAndPassword(
         _nameController.text.toLowerCase().trim(),
         _emailController.text.toLowerCase().trim(),
         _passwordController.text,
       );
 
       if (user != null) {
+        // ignore: duplicate_ignore
+        // ignore: use_build_scontext_synchronously
+
+        // firstly signout the user
+        // _auth.SignOut();
+
         showDialog(
           context: context,
           builder: (context) {
@@ -68,8 +81,10 @@ class _RegistrationState extends State<Registration> {
             );
           },
         );
-        return _auth.signOut();
+        return _auth.SignOut();
       } else {
+        // ignore: duplicate_ignore
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -81,6 +96,7 @@ class _RegistrationState extends State<Registration> {
         );
       }
     } else {
+      // show a user a message telling them to fill in all the data in the fields
       showDialog(
         context: context,
         builder: (context) {
@@ -116,14 +132,29 @@ class _RegistrationState extends State<Registration> {
   }
 
   Future<void> _handleGoogleSignIn() async {
-    final user = await _auth.signInWithGoogle();
-    if (user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeEntry(),
-        ),
-      );
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        final UserCredential userCredential =
+            await _auth.signInWithCredential(credential);
+        final User? user = userCredential.user;
+        if (user != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeEntry(),
+            ),
+          );
+        }
+      }
+    } catch (error) {
+      print('Google Sign-In Error: $error');
     }
   }
 
@@ -188,7 +219,7 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     prefixIcon: Icon(
-                      Icons.email_outlined,
+                      Icons.shopping_bag_outlined,
                       color: Colors.red,
                     ),
                   ),
@@ -227,10 +258,11 @@ class _RegistrationState extends State<Registration> {
                   controller: _passwordController,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
+                    // Remove 'const' here
                     hintText: 'Password',
                     border: null,
                     filled: true,
-                    fillColor: const Color(0xFFF3F3F3),
+                    fillColor: Color(0xFFF3F3F3),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 50),
                     focusedBorder: const OutlineInputBorder(
@@ -315,7 +347,7 @@ class _RegistrationState extends State<Registration> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareTile(
-                      onTap: () => FirebaseAuthServices().signInWithGoogle(),
+                      onTap: _handleGoogleSignIn,
                       imagePath: 'images/google_logo.png'),
                   const SizedBox(width: 25),
                   SquareTile(onTap: () {}, imagePath: 'images/apple_icon.png'),
