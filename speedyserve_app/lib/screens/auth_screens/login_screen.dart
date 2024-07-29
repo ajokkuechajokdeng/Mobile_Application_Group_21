@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               content: const Text(
-                'The supplied authentication credentials are incorrect, malformed or have expired',
+                'Incorrect email or password',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
