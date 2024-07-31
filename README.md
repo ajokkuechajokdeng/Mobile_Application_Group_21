@@ -8,7 +8,8 @@ This repository serves as a collaborative space for our team to work on various 
 
 ## Project Structure
 
-- Link to the video recording: https://drive.google.com/file/d/1iaN1ImLwfs134uLf2Ihn9FtdomFrl47h/view?usp=sharing
+- Link to the Frontend implementation video recording: https://drive.google.com/file/d/1iaN1ImLwfs134uLf2Ihn9FtdomFrl47h/view?usp=sharing
+- Link to the Authentication, App/Business Logic, and Backend video recording: https://drive.google.com/file/d/1iaN1ImLwfs134uLf2Ihn9FtdomFrl47h/view?usp=sharing
 - Link to the GitHub repository: https://github.com/ajokkuechajokdeng/Mobile_Application_Group_21
 
 ## Getting Started
